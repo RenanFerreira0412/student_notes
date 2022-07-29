@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_notes/Components/item_activity_table.dart';
-import 'package:student_notes/Screens/form_activity.dart';
+import 'package:student_notes/Models/activity.dart';
 import 'package:student_notes/Widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,11 +43,15 @@ class _HomePageState extends State<HomePage> {
                 icone: Icons.assignment_rounded,
                 title: 'Formulário',
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FormActivity()),
-                  );
+                  Navigator.pushNamed(context, '/formActivity',
+                      arguments: ActivityArguments());
+                },
+                color: Colors.black),
+            ListTileOptions(
+                icone: Icons.account_circle_rounded,
+                title: 'Meu perfil',
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile');
                 },
                 color: Colors.black),
           ],

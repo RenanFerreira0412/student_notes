@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:student_notes/Screens/homepage.dart';
+import 'package:student_notes/Route/route_generator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +28,9 @@ class StudentNoteApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+
+      initialRoute: '/homepage',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

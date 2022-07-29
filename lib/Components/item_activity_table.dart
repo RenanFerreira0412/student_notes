@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:student_notes/Screens/form_activity.dart';
+import 'package:student_notes/Models/activity.dart';
 
 class DataTableActivity extends StatelessWidget {
   final Stream<QuerySnapshot> _activityStream =
@@ -134,16 +134,13 @@ class TableSource extends DataTableSource {
     final dataEntrega = data.docs[index]['data_entrega'];
     final topicos = data.docs[index]['topicos'];
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => FormActivity(
-                titulo: titulo,
-                disciplina: disciplina,
-                data: dataEntrega,
-                topicos: topicos,
-                docId: docId,
-              )),
-    );
+    Navigator.pushNamed(context, '/formActivity',
+        arguments: ActivityArguments(
+            titulo: titulo,
+            topicos: topicos,
+            disciplina: disciplina,
+            data: dataEntrega,
+            docId: docId));
+
   }
 }
