@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Student Notes'),
+        title: const Text('Student Notes App'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
