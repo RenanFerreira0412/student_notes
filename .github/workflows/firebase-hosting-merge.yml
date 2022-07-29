@@ -10,11 +10,27 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      # Verifica repositório
       - uses: actions/checkout@v2
-      - run: npm ci && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+
+      # Instalando flutter
+      - uses: subosito/flutter-action@v1
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          channel: 'dev'
+
+      # Buildando a aplicação
+      - name: Build Website
+        run: |
+          flutter config --enable-web
+          flutter pub get
+          flutter build web --release
+        working-directory: ./
+
+      # Deploy da aplicação
+      - name: Deploy Firebase Hosting
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting:student-notes-aa994
+        env:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_STUDENT_NOTES_AA994 }}'
-          channelId: live
-          projectId: student-notes-aa994
+          PROJECT_PATH: ./
