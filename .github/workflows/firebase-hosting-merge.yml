@@ -32,5 +32,5 @@ jobs:
         with:
           args: deploy --only hosting:student-notes-aa994
         env:
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_STUDENT_NOTES_AA994 }}'
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STUDENT_NOTES_AA994 }}
           PROJECT_PATH: ./
