@@ -39,7 +39,6 @@ class _FormActivityState extends State<FormActivity> {
   String? _disciplinaSelecionada = '';
 
   final String tituloDisciplina = 'Selecione uma disciplina';
-  //final String messageValidateChoiceChip = 'Por favor, escolha uma disciplina!';
 
   @override
   void initState() {
@@ -55,9 +54,6 @@ class _FormActivityState extends State<FormActivity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cadastro de Atividades'),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_notes/Models/activity.dart';
-import 'package:student_notes/Screens/form_activity.dart';
+import 'package:student_notes/Screens/form.dart';
 import 'package:student_notes/Screens/homepage.dart';
 import 'package:student_notes/Screens/profile.dart';
 
@@ -9,11 +9,11 @@ class RouteGenerator {
     switch (settings.name) {
       case '/homepage':
         return MaterialPageRoute(builder: (_) => const HomePage());
-      case '/formActivity':
+      case '/form':
         //final args = settings.arguments as ActivityArguments;
         ActivityArguments argument = settings.arguments as ActivityArguments;
         return MaterialPageRoute(
-            builder: (_) => FormActivity(
+            builder: (_) => Formulario(
                 titulo: argument.titulo,
                 topicos: argument.topicos,
                 disciplina: argument.disciplina,

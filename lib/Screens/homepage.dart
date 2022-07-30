@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Student Notes App'),
+        title: const Text('Student Notes'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                 icone: Icons.assignment_rounded,
                 title: 'Formulário',
                 onTap: () {
-                  Navigator.pushNamed(context, '/formActivity',
+                  Navigator.pushNamed(context, '/form',
                       arguments: ActivityArguments());
                 },
                 color: Colors.black),

@@ -19,11 +19,12 @@ class StudentNoteApp extends StatelessWidget {
   const StudentNoteApp({Key? key}) : super(key: key);
 
   //final Future<FirebaseApp> _fbApp =  Firebase.initializeApp();
+  static const String _title = 'Student Notes';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Student Notes',
+      title: _title,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,

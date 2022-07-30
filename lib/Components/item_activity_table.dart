@@ -134,13 +134,12 @@ class TableSource extends DataTableSource {
     final dataEntrega = data.docs[index]['data_entrega'];
     final topicos = data.docs[index]['topicos'];
 
-    Navigator.pushNamed(context, '/formActivity',
+    Navigator.pushNamed(context, '/form',
         arguments: ActivityArguments(
             titulo: titulo,
             topicos: topicos,
             disciplina: disciplina,
             data: dataEntrega,
             docId: docId));
-
   }
 }
