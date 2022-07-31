@@ -3,10 +3,13 @@ import 'package:student_notes/Models/activity.dart';
 import 'package:student_notes/Screens/form.dart';
 import 'package:student_notes/Screens/homepage.dart';
 import 'package:student_notes/Screens/profile.dart';
+import 'package:student_notes/Widgets/auth_check.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case '/authCheck':
+        return MaterialPageRoute(builder: (_) => const AuthCheck());
       case '/homepage':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/form':

@@ -56,3 +56,58 @@ class EditorTextFormField extends StatelessWidget {
     );
   }
 }
+
+class EditorAuthField extends StatelessWidget {
+  final TextEditingController controller;
+  final int maxLength;
+  final int lines;
+  final String labelText;
+  final String dica;
+  final bool isConfirmSenha;
+  final TextEditingController? registrarSenha;
+
+  const EditorAuthField({
+    Key? key,
+    required this.controller,
+    required this.maxLength,
+    required this.lines,
+    required this.labelText,
+    required this.dica,
+    required this.isConfirmSenha,
+    this.registrarSenha,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 13, bottom: 13),
+      child: TextFormField(
+        controller: controller,
+        maxLength: maxLength,
+        maxLines: lines,
+        style: const TextStyle(
+          fontSize: 18.0,
+        ),
+        decoration: InputDecoration(
+          labelText: labelText,
+          hintText: dica,
+          helperText: dica,
+          border: const OutlineInputBorder(),
+        ),
+        validator: isConfirmSenha
+            ? (value) {
+                if (value == null && value != registrarSenha!.text) {
+                  return 'Digite a mesma senha informada anteriormente!';
+                }
+                return null;
+              }
+            : (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Campo Obrigatório!';
+                }
+                return null;
+              },
+      ),
+    );
+  }
+}
