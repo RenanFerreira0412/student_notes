@@ -8,8 +8,6 @@
 .buildlog/
 .history
 .svn/
-lib/Components/form_activity.dart
-lib/Components/form_disciplina.dart
 
 # IntelliJ related
 *.iml

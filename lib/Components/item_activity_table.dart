@@ -3,16 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:student_notes/Models/activity.dart';
 
 class DataTableActivity extends StatelessWidget {
-  final Stream<QuerySnapshot> _activityStream =
-      FirebaseFirestore.instance.collection('ATIVIDADES').snapshots();
+  final String userId;
+
+  DataTableActivity({Key? key, required this.userId}) : super(key: key);
 
   final CollectionReference activityRef =
       FirebaseFirestore.instance.collection('ATIVIDADES');
 
-  DataTableActivity({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> _activityStream = FirebaseFirestore.instance
+        .collection('ATIVIDADES')
+        .where('userId', isEqualTo: userId)
+        .snapshots();
+
+
     return StreamBuilder<QuerySnapshot>(
       stream: _activityStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_notes/Components/editor.dart';
 import 'package:student_notes/Components/form_methods.dart';
+import 'package:student_notes/Services/auth_service.dart';
 
 class Formulario extends StatefulWidget {
   final String? titulo;
@@ -24,11 +26,13 @@ class Formulario extends StatefulWidget {
 }
 
 class _FormularioState extends State<Formulario> {
-  final Stream<QuerySnapshot> _disciplinaStream =
-      FirebaseFirestore.instance.collection('DISCIPLINAS').snapshots();
-
   final CollectionReference activityRef =
       FirebaseFirestore.instance.collection('ATIVIDADES');
+
+  final CollectionReference disciplinaRef =
+      FirebaseFirestore.instance.collection('DISCIPLINAS');
+
+  late AuthService auth;
 
   final TextEditingController _controladorTitulo = TextEditingController();
   final TextEditingController _controladorTopicos = TextEditingController();
@@ -43,7 +47,7 @@ class _FormularioState extends State<Formulario> {
 
   String? _disciplinaSelecionada = '';
 
-  final String registrarDisciplina = 'Registrar disciplinas adicionais';
+  final String registrarDisciplina = 'Registrar disciplinas';
   //final String messageValidateChoiceChip = 'Por favor, escolha uma disciplina!';
 
   @override
@@ -59,6 +63,13 @@ class _FormularioState extends State<Formulario> {
 
   @override
   Widget build(BuildContext context) {
+    auth = Provider.of<AuthService>(context);
+
+    final _disciplinaStream = FirebaseFirestore.instance
+        .collection('DISCIPLINAS')
+        .where('userId', isEqualTo: auth.userId())
+        .snapshots();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastro de Atividades'),
@@ -149,7 +160,7 @@ class _FormularioState extends State<Formulario> {
               _disciplinaSelecionada != '') {
             if (documentID == '') {
               criarAtividade(activityRef, _controladorTitulo, _controladorData,
-                  _disciplinaSelecionada, _controladorTopicos);
+                  _disciplinaSelecionada, _controladorTopicos, auth.userId());
               //SnackBar
               const SnackBar snackBar = SnackBar(
                   content: Text("Sua atividade foi criada com sucesso! "));
@@ -241,6 +252,8 @@ class _FormularioState extends State<Formulario> {
                       onPressed: () {
                         if (_formKeyDisciplina.currentState!.validate()) {
                           debugPrint(_controladorNome.text);
+                          addDisciplina(
+                              disciplinaRef, _controladorNome, auth.userId());
                         }
                       },
                       child: const Text('Salvar'))

@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          DataTableActivity(),
+          DataTableActivity(userId: auth.userId()),
         ],
       ),
       drawer: Drawer(
