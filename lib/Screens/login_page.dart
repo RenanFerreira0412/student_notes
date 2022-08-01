@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               titulo,
@@ -120,19 +120,21 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             EditorAuthField(
-                controller: loginEmail,
-                maxLength: 50,
-                lines: 1,
-                labelText: 'Email',
+                controlador: loginEmail,
+                rotulo: 'Email',
                 dica: 'Seu email',
-                isConfirmSenha: false),
+                errorText: 'Campo Obrigatório!',
+                icon: const Icon(Icons.email_rounded),
+                verSenha: false,
+                confirmPasswordField: false),
             EditorAuthField(
-                controller: loginSenha,
-                maxLength: 15,
-                lines: 1,
-                labelText: 'Senha',
+                controlador: loginSenha,
+                rotulo: 'Senha',
                 dica: 'Sua senha',
-                isConfirmSenha: false)
+                errorText: 'Campo Obrigatório!',
+                icon: const Icon(Icons.lock_rounded),
+                verSenha: true,
+                confirmPasswordField: false),
           ],
         ));
   }
@@ -143,35 +145,39 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             EditorAuthField(
-                controller: registrarNome,
-                maxLength: 50,
-                lines: 1,
-                labelText: 'Nome',
+                controlador: registrarNome,
+                rotulo: 'Nome',
                 dica: 'Seu nome',
-                isConfirmSenha: false),
+                errorText: 'Campo Obrigatório!',
+                icon: const Icon(Icons.person),
+                verSenha: false,
+                confirmPasswordField: false),
             EditorAuthField(
-                controller: registrarEmail,
-                maxLength: 50,
-                lines: 1,
-                labelText: 'Email',
+                controlador: registrarEmail,
+                rotulo: 'Email',
                 dica: 'Seu email',
-                isConfirmSenha: false),
+                errorText: 'Campo Obrigatório!',
+                icon: const Icon(Icons.email_rounded),
+                verSenha: false,
+                confirmPasswordField: false),
             EditorAuthField(
-              controller: registrarSenha,
-              maxLength: 15,
-              lines: 1,
-              labelText: 'Senha',
-              dica: 'Sua senha',
-              isConfirmSenha: false,
-            ),
+                controlador: registrarSenha,
+                rotulo: 'Senha',
+                dica: 'Sua senha',
+                errorText: 'Campo Obrigatório!',
+                icon: const Icon(Icons.lock_rounded),
+                verSenha: true,
+                confirmPasswordField: false),
             EditorAuthField(
-                controller: registrarConfirmaSenha,
-                maxLength: 15,
-                lines: 1,
-                labelText: 'Confirmar senha',
-                dica: 'Repita a senha digitada',
-                isConfirmSenha: true,
-                registrarSenha: registrarSenha)
+                controlador: registrarConfirmaSenha,
+                rotulo: 'Confirmar senha',
+                dica: 'Repita sua senha',
+                errorText:
+                    'Por favor, verifique se este campo possui a mesma senha digitada!',
+                icon: const Icon(Icons.lock_rounded),
+                verSenha: true,
+                controllerSenha: registrarSenha,
+                confirmPasswordField: true),
           ],
         ));
   }
