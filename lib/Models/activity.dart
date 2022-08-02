@@ -8,3 +8,10 @@ class ActivityArguments {
   ActivityArguments(
       {this.titulo, this.data, this.topicos, this.docId, this.disciplina});
 }
+
+class DisciplinaArguments {
+  final String nome;
+  final String userId;
+
+  DisciplinaArguments(this.nome, this.userId);
+}

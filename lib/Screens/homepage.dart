@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_notes/Components/item_activity_table.dart';
+import 'package:student_notes/Components/item_disciplinas.dart';
 import 'package:student_notes/Models/activity.dart';
 import 'package:student_notes/Services/auth_service.dart';
 import 'package:student_notes/Widgets/widgets.dart';
@@ -21,12 +21,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Student Notes'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          DataTableActivity(userId: auth.userId()),
-        ],
-      ),
+      body: CardDisciplinas(userId: auth.userId()),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -56,6 +51,13 @@ class _HomePageState extends State<HomePage> {
                 title: 'Meu perfil',
                 onTap: () {
                   Navigator.pushNamed(context, '/profile');
+                },
+                color: Colors.black),
+            ListTileOptions(
+                icone: Icons.settings,
+                title: 'Configurações',
+                onTap: () {
+                  Navigator.pushNamed(context, '/settings');
                 },
                 color: Colors.black),
             ListTileOptions(

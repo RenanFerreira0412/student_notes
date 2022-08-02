@@ -8,11 +8,18 @@ Future<void> criarAtividade(
     _disciplinaSelecionada,
     _controladorTopicos,
     String userId) async {
+  String _nomeDisciplinaUserId;
+
+  _nomeDisciplinaUserId = _disciplinaSelecionada + '_' + userId;
+
+  debugPrint(_nomeDisciplinaUserId);
+
   //Adicionando um novo documento a nossa coleção -> Atividades
   DocumentReference _novaAtividade = await activityRef.add({
     'titulo': _controladorTitulo.text,
     'data_entrega': _controladorData.text,
     'disciplina': _disciplinaSelecionada,
+    'filtroDisciplina': _nomeDisciplinaUserId,
     'topicos': _controladorTopicos.text,
     'userId': userId
   }).catchError((error) =>
