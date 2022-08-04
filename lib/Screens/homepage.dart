@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Student Notes'),
       ),
-      body: CardDisciplinas(userId: auth.userId()),
+      body: ItemHomepage(userId: auth.userId()),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,

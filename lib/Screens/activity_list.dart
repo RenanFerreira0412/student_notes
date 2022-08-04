@@ -23,7 +23,7 @@ class ListActivity extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Atividades'),
+          title: Text(nomeDisciplina),
         ),
         body: StreamBuilder<QuerySnapshot>(
             stream: _activityFilterStream,

@@ -59,6 +59,7 @@ Future<void> limpaFormulario(TextEditingController _controladorTitulo,
 
 Future<void> addDisciplina(CollectionReference disciplinaRef,
     TextEditingController controladorDisciplina, String userId) async {
+
   await disciplinaRef
       .add({'nome': controladorDisciplina.text, 'userId': userId})
       .then((value) => debugPrint("Disciplina Adicionada"))

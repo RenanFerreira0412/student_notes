@@ -156,8 +156,13 @@ class _FormularioState extends State<Formulario> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (_formKey.currentState!.validate() &&
-              _disciplinaSelecionada != '') {
+          if (!_formKey.currentState!.validate() ||
+              _disciplinaSelecionada == '') {
+            //Mensagem de validação - SnackBar
+            const SnackBar snackBar =
+                SnackBar(content: Text("Selecione uma disciplina! "));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          } else {
             if (documentID == '') {
               criarAtividade(activityRef, _controladorTitulo, _controladorData,
                   _disciplinaSelecionada, _controladorTopicos, auth.userId());
@@ -252,6 +257,7 @@ class _FormularioState extends State<Formulario> {
                       onPressed: () {
                         if (_formKeyDisciplina.currentState!.validate()) {
                           debugPrint(_controladorNome.text);
+
                           addDisciplina(
                               disciplinaRef, _controladorNome, auth.userId());
                         }
