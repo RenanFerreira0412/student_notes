@@ -44,29 +44,25 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   Navigator.pushNamed(context, '/form',
                       arguments: ActivityArguments());
-                },
-                color: Colors.black),
+                }),
             ListTileOptions(
                 icone: Icons.account_circle_rounded,
                 title: 'Meu perfil',
                 onTap: () {
                   Navigator.pushNamed(context, '/profile');
-                },
-                color: Colors.black),
+                }),
             ListTileOptions(
                 icone: Icons.settings,
                 title: 'Configurações',
                 onTap: () {
                   Navigator.pushNamed(context, '/settings');
-                },
-                color: Colors.black),
+                }),
             ListTileOptions(
                 icone: Icons.logout_rounded,
                 title: 'Sair',
                 onTap: () {
                   auth.logout();
-                },
-                color: Colors.black),
+                }),
           ],
         ),
       ),
