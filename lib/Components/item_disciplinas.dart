@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_notes/Models/activity.dart';
+import 'package:student_notes/Theme/colors.dart';
 
 class ItemHomepage extends StatefulWidget {
   final String userId;
@@ -53,50 +54,47 @@ class ItemDisciplinas extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final data = snapshot.requireData;
-
-          return CarouselSlider.builder(
-            itemCount: data.size,
+          //final data = snapshot.requireData;
+          return CarouselSlider(
             options: CarouselOptions(
-              aspectRatio: 2.0,
-              enlargeCenterPage: false,
-              viewportFraction: 1,
-                height: 200.0
-            ),
-            itemBuilder:
-                (BuildContext context, int itemIndex, int pageViewIndex) {
-              return Row(
-                children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                  return Expanded(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        debugPrint(document['nome']);
-                        Navigator.pushNamed(context, '/listActivity',
-                            arguments:
-                                DisciplinaArguments(document['nome'], userId));
-                      },
-                      child: SizedBox(
-                        height: 150,
-                        child: Card(
-                            margin: const EdgeInsets.symmetric(horizontal: 5),
-                            elevation: 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.school_rounded),
-                                Expanded(child: Text(document['nome']))
-
-                              ],
-                            )),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              );
-            },
+                autoPlay: true,
+                aspectRatio: 2.0,
+                enlargeCenterPage: true,
+                height: 150),
+            items: snapshot.data!.docs.map((DocumentSnapshot document) {
+              return GestureDetector(
+                  onTap: () {
+                    debugPrint(document['nome']);
+                    Navigator.pushNamed(context, '/listActivity',
+                        arguments:
+                            DisciplinaArguments(document['nome'], userId));
+                  },
+                  child: buildContainer(document['nome']));
+            }).toList(),
           );
         });
   }
+}
+
+Widget buildContainer(String nome) {
+  return Container(
+    width: 500,
+    decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(15),
+        ),
+        color:  AppColors.flexSchemeDark.primary
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Icon(Icons.school_rounded),
+
+        Text(nome,
+            style: const TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold)),
+      ],
+    ),
+  );
 }

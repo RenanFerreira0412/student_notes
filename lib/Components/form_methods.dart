@@ -56,16 +56,3 @@ Future<void> limpaFormulario(TextEditingController _controladorTitulo,
   _disciplinaSelecionada = '';
   _controladorData.text = '';
 }
-
-Future<void> addDisciplina(CollectionReference disciplinaRef,
-    TextEditingController controladorDisciplina, String userId) async {
-
-  await disciplinaRef
-      .add({'nome': controladorDisciplina.text, 'userId': userId})
-      .then((value) => debugPrint("Disciplina Adicionada"))
-      .catchError(
-          (error) => debugPrint("Falha ao adicionar essa disciplina: $error"));
-
-  //Limpa o campo
-  controladorDisciplina.text = '';
-}

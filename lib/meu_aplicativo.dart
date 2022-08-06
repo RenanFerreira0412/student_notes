@@ -24,6 +24,7 @@ class StudentNoteApp extends StatelessWidget {
           timePickerDialogRadius: 20.0,
         ),
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        useMaterial3: true,
         // To use the playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),

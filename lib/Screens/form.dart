@@ -40,6 +40,8 @@ class _FormularioState extends State<Formulario> {
   final TextEditingController _controladorNome = TextEditingController();
   String documentID = '';
 
+  late List vetDisciplinas;
+
   bool isExpanded = false;
 
   final _formKey = GlobalKey<FormState>();
@@ -64,6 +66,8 @@ class _FormularioState extends State<Formulario> {
   @override
   Widget build(BuildContext context) {
     auth = Provider.of<AuthService>(context);
+
+    vetDisciplinas = [];
 
     final _disciplinaStream = FirebaseFirestore.instance
         .collection('DISCIPLINAS')
@@ -96,6 +100,10 @@ class _FormularioState extends State<Formulario> {
                   }
 
                   final data = snapshot.requireData;
+
+                  vetDisciplinas = data.docs;
+
+                  //checkDisciplina(data.docs, _controladorNome.text);
 
                   return Wrap(
                     spacing: 8.0,
@@ -156,8 +164,12 @@ class _FormularioState extends State<Formulario> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (!_formKey.currentState!.validate() ||
-              _disciplinaSelecionada == '') {
+          if (!_formKey.currentState!.validate()) {
+            //Mensagem de validação - SnackBar
+            const SnackBar snackBar =
+                SnackBar(content: Text("Preencha corretamente os campos! "));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          } else if (_disciplinaSelecionada == '') {
             //Mensagem de validação - SnackBar
             const SnackBar snackBar =
                 SnackBar(content: Text("Selecione uma disciplina! "));
@@ -254,12 +266,33 @@ class _FormularioState extends State<Formulario> {
                       readOnly: false,
                       fieldIcon: const Icon(Icons.title_rounded)),
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKeyDisciplina.currentState!.validate()) {
-                          debugPrint(_controladorNome.text);
+                          //debugPrint(_controladorNome.text);
 
-                          addDisciplina(
-                              disciplinaRef, _controladorNome, auth.userId());
+                          if (checkDisciplina(_controladorNome.text)) {
+                            //SnackBar
+                            const SnackBar snackBar = SnackBar(
+                                content: Text(
+                                    "Essa disciplina já foi cadastrada! "));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else {
+                            await disciplinaRef
+                                .add({
+                                  'nome': _controladorNome.text,
+                                  'userId': auth.userId()
+                                })
+                                .then((value) =>
+                                    debugPrint("Disciplina Adicionada"))
+                                .catchError((error) => debugPrint(
+                                    "Falha ao adicionar essa disciplina: $error"));
+
+                            //Limpa o campo
+                            _controladorNome.text = '';
+                          }
+
+                          //addDisciplina(disciplinaRef, _controladorNome, auth.userId());
                         }
                       },
                       child: const Text('Salvar'))
@@ -276,5 +309,21 @@ class _FormularioState extends State<Formulario> {
         });
       },
     );
+  }
+
+  bool checkDisciplina(String disciplinaRegistrada) {
+    var log = 0;
+
+    for (var element in vetDisciplinas) {
+      if (element['nome'].toLowerCase() == disciplinaRegistrada.toLowerCase()) {
+        log = 1;
+      }
+    }
+
+    if (log == 1) {
+      return true; // se existe
+    } else {
+      return false; // se não existe
+    }
   }
 }
