@@ -32,6 +32,10 @@ class AuthService extends ChangeNotifier {
     return _auth.currentUser!.uid;
   }
 
+  String photoURL() {
+    return _auth.currentUser!.photoURL ?? 'lib/Assets/Image/user.png';
+  }
+
   _getUser() {
     usuario = _auth.currentUser;
     notifyListeners();
