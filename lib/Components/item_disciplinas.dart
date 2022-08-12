@@ -1,13 +1,13 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:student_notes/Models/activity.dart';
-import 'package:student_notes/Theme/colors.dart';
+import 'package:student_notes/Widgets/widgets.dart';
 
 class ItemHomepage extends StatefulWidget {
   final String userId;
+  final bool isGridMode;
 
-  const ItemHomepage({Key? key, required this.userId}) : super(key: key);
+  const ItemHomepage({Key? key, required this.userId, required this.isGridMode})
+      : super(key: key);
 
   @override
   State<ItemHomepage> createState() => _ItemHomepageState();
@@ -21,13 +21,20 @@ class _ItemHomepageState extends State<ItemHomepage> {
         .where('userId', isEqualTo: widget.userId)
         .snapshots();
 
-    return SingleChildScrollView(
+    return Container(
       padding: const EdgeInsets.all(16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
         const Text('Minhas matérias'),
         const SizedBox(height: 10),
-        ItemDisciplinas(
-            disciplinaStream: _disciplinaStream, userId: widget.userId)
+        Expanded(
+
+          child: ItemDisciplinas(
+              disciplinaStream: _disciplinaStream,
+              userId: widget.userId,
+              isGridMode: widget.isGridMode),
+        )
       ]),
     );
   }
@@ -36,9 +43,13 @@ class _ItemHomepageState extends State<ItemHomepage> {
 class ItemDisciplinas extends StatelessWidget {
   final Stream<QuerySnapshot> disciplinaStream;
   final String userId;
+  final bool isGridMode;
 
   const ItemDisciplinas(
-      {Key? key, required this.disciplinaStream, required this.userId})
+      {Key? key,
+      required this.disciplinaStream,
+      required this.userId,
+      required this.isGridMode})
       : super(key: key);
 
   @override
@@ -54,47 +65,12 @@ class ItemDisciplinas extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          //final data = snapshot.requireData;
-          return CarouselSlider(
-            options: CarouselOptions(
-                autoPlay: true,
-                aspectRatio: 2.0,
-                enlargeCenterPage: true,
-                height: 150),
-            items: snapshot.data!.docs.map((DocumentSnapshot document) {
-              return GestureDetector(
-                  onTap: () {
-                    debugPrint(document['nome']);
-                    Navigator.pushNamed(context, '/listActivity',
-                        arguments:
-                            DisciplinaArguments(document['nome'], userId));
-                  },
-                  child: buildContainer(document['nome']));
-            }).toList(),
-          );
+          final data = snapshot.requireData;
+          if (isGridMode) {
+            return GridBuilder(data: data, userId: userId);
+          } else {
+            return ListBuilder(userId: userId, data: data);
+          }
         });
   }
-}
-
-Widget buildContainer(String nome) {
-  return Container(
-    width: 500,
-    decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(15),
-        ),
-        color:  AppColors.flexSchemeDark.primary
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const Icon(Icons.school_rounded),
-
-        Text(nome,
-            style: const TextStyle(
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold)),
-      ],
-    ),
-  );
 }
