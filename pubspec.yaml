@@ -35,6 +35,9 @@ dependencies:
   provider: ^6.0.3
   flex_color_scheme: ^5.0.1
   carousel_slider: ^4.1.1
+  pdf: ^3.8.3
+  open_file: ^3.2.1
+  printing: ^5.9.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

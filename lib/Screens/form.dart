@@ -178,6 +178,7 @@ class _FormularioState extends State<Formulario> {
             if (documentID == '') {
               criarAtividade(activityRef, _controladorTitulo, _controladorData,
                   _disciplinaSelecionada, _controladorTopicos, auth.userId());
+
               //SnackBar
               const SnackBar snackBar = SnackBar(
                   content: Text("Sua atividade foi criada com sucesso! "));

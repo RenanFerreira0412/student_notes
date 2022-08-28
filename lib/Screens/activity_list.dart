@@ -60,6 +60,17 @@ class ListActivity extends StatelessWidget {
                               leading: const Icon(Icons.bookmark_rounded),
                               title: Text(titulo),
                               subtitle: Text(disciplina),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.picture_as_pdf_rounded),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/pdfPreview',
+                                      arguments: ActivityArguments(
+                                          titulo: titulo,
+                                          topicos: topicos,
+                                          disciplina: disciplina,
+                                          data: dataEntrega));
+                                },
+                              ),
                             ),
                             Padding(
                               padding:

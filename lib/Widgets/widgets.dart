@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:student_notes/Models/activity.dart';
 import 'package:student_notes/Theme/colors.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class ListTileOptions extends StatelessWidget {
   final IconData icone;
@@ -52,17 +53,18 @@ class GridBuilderState extends State<GridBuilder> {
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: GridTile(
-                header: GridTileBar(
-                  leading: const Icon(Icons.school_rounded),
-                  title: Text(nomeDisciplina),
-                ),
+                  header: GridTileBar(
+                    leading: const Icon(Icons.school_rounded),
+                    title: Text(nomeDisciplina),
+                  ),
                   child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 2.0, color: AppColors.flexSchemeDark.primary),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15),
-                    ))
-              )),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 2.0,
+                              color: AppColors.flexSchemeDark.primary),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(15),
+                          )))),
             ),
           );
         });
@@ -105,4 +107,26 @@ class _ListBuilderState extends State<ListBuilder> {
           );
         });
   }
+}
+
+pw.Column conteudoPDF(String titulo, topicos, disciplina, data) {
+  return pw.Column(children: [
+    pw.Header(
+        level: 0,
+        title: 'Atividade escolar',
+        child: pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: <pw.Widget>[
+              pw.Text('Atividade escolar', textScaleFactor: 2),
+              pw.PdfLogo()
+            ])),
+    pw.Header(level: 1, text: 'Título da atividade'),
+    pw.Paragraph(text: titulo),
+    pw.Header(level: 1, text: 'Data de entrega da atividade'),
+    pw.Paragraph(text: data),
+    pw.Header(level: 1, text: 'Disciplina da atividade'),
+    pw.Paragraph(text: disciplina),
+    pw.Header(level: 1, text: 'Tópicos da atividade'),
+    pw.Paragraph(text: topicos),
+  ]);
 }

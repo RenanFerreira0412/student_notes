@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_notes/Screens/PdfPreviewPage.dart';
 import 'package:student_notes/Screens/activity_list.dart';
 import 'package:student_notes/Models/activity.dart';
 import 'package:student_notes/Screens/form.dart';
@@ -24,6 +25,14 @@ class RouteGenerator {
                 disciplina: argument.disciplina,
                 data: argument.data,
                 docId: argument.docId));
+      case '/pdfPreview':
+        ActivityArguments argument = settings.arguments as ActivityArguments;
+        return MaterialPageRoute(
+            builder: (_) => PdfPreviewPage(
+                titulo: argument.titulo,
+                topicos: argument.topicos,
+                disciplina: argument.disciplina,
+                data: argument.data));
       case '/profile':
         return MaterialPageRoute(builder: (_) => const UserProfile());
       case '/settings':
