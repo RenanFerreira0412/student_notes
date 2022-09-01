@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:student_notes/Screens/PdfPreviewPage.dart';
-import 'package:student_notes/Screens/activity_list.dart';
+import 'package:student_notes/Components/item_activity_list.dart';
 import 'package:student_notes/Models/activity.dart';
+import 'package:student_notes/Screens/disciplina_list.dart';
 import 'package:student_notes/Screens/form.dart';
 import 'package:student_notes/Screens/homepage.dart';
 import 'package:student_notes/Screens/profile.dart';
@@ -37,12 +38,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const UserProfile());
       case '/settings':
         return MaterialPageRoute(builder: (_) => const Settings());
+      case '/listDisciplinas':
+        String args = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => ListDisciplinas(userId: args));
       case '/listActivity':
         DisciplinaArguments args = settings.arguments as DisciplinaArguments;
 
         return MaterialPageRoute(
-            builder: (_) =>
-                ListActivity(nomeDisciplina: args.nome, userId: args.userId));
+            builder: (_) => ItemListActivity(
+                nomeDisciplina: args.nome, userId: args.userId));
 
       default:
         // Caso não exista nenhum nome de rota estabelecido no laço, retorna uma mensagem de erro, e.g. /third

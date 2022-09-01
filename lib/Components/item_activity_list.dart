@@ -2,14 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_notes/Models/activity.dart';
 
-class ListActivity extends StatelessWidget {
+class ItemListActivity extends StatelessWidget {
   final String nomeDisciplina;
   final String userId;
 
   final CollectionReference activityRef =
       FirebaseFirestore.instance.collection('ATIVIDADES');
 
-  ListActivity({Key? key, required this.nomeDisciplina, required this.userId})
+  ItemListActivity(
+      {Key? key, required this.nomeDisciplina, required this.userId})
       : super(key: key);
 
   @override

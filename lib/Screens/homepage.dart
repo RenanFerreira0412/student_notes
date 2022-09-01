@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_notes/Components/item_disciplinas.dart';
+import 'package:student_notes/Components/item_homepage.dart';
 import 'package:student_notes/Models/activity.dart';
 import 'package:student_notes/Services/auth_service.dart';
 import 'package:student_notes/Widgets/expandable_FAB.dart';
@@ -14,8 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool _isGridMode = false;
-
   @override
   Widget build(BuildContext context) {
     AuthService auth = Provider.of<AuthService>(context);
@@ -23,28 +21,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Student Notes'),
-        actions: [
-          if (_isGridMode)
-            IconButton(
-              icon: const Icon(Icons.grid_on),
-              onPressed: () {
-                setState(() {
-                  _isGridMode = false;
-                });
-              },
-            )
-          else
-            IconButton(
-              icon: const Icon(Icons.list),
-              onPressed: () {
-                setState(() {
-                  _isGridMode = true;
-                });
-              },
-            ),
-        ],
       ),
-      body: ItemHomepage(userId: auth.userId(), isGridMode: _isGridMode),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -69,6 +46,13 @@ class _HomePageState extends State<HomePage> {
                       arguments: ActivityArguments());
                 }),
             ListTileOptions(
+                icone: Icons.list_alt_rounded,
+                title: 'Minhas Atividades',
+                onTap: () {
+                  Navigator.pushNamed(context, '/listDisciplinas',
+                      arguments: auth.userId());
+                }),
+            ListTileOptions(
                 icone: Icons.account_circle_rounded,
                 title: 'Meu perfil',
                 onTap: () {
@@ -89,6 +73,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      body: ItemHomepage(userId: auth.userId()),
       floatingActionButton: ExpandableFab(
         distance: 112.0,
         children: [

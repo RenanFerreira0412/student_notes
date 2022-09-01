@@ -187,6 +187,7 @@ class _FormularioState extends State<Formulario> {
               editarAtividade(
                   activityRef,
                   documentID,
+                  auth.userId(),
                   _controladorTitulo,
                   _controladorData,
                   _disciplinaSelecionada,

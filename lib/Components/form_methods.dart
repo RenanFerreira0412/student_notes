@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 Future<void> criarAtividade(
     CollectionReference activityRef,
     TextEditingController _controladorTitulo,
-    _controladorData,
+    TextEditingController _controladorData,
     _disciplinaSelecionada,
-    _controladorTopicos,
+    TextEditingController _controladorTopicos,
     String userId) async {
   String _nomeDisciplinaUserId;
+  String _nomeDataEntregaUserId;
 
   _nomeDisciplinaUserId = _disciplinaSelecionada + '_' + userId;
+  _nomeDataEntregaUserId = _controladorData.text + '_' + userId;
 
   debugPrint(_nomeDisciplinaUserId);
 
@@ -20,6 +22,7 @@ Future<void> criarAtividade(
     'data_entrega': _controladorData.text,
     'disciplina': _disciplinaSelecionada,
     'filtroDisciplina': _nomeDisciplinaUserId,
+    'filtroDataEntrega': _nomeDataEntregaUserId,
     'topicos': _controladorTopicos.text,
     'userId': userId
   }).catchError((error) =>
@@ -31,10 +34,15 @@ Future<void> criarAtividade(
 Future<void> editarAtividade(
     CollectionReference activityRef,
     String documentID,
+    String userId,
     TextEditingController _controladorTitulo,
-    _controladorData,
+    TextEditingController _controladorData,
     _disciplinaSelecionada,
-    _controladorTopicos) async {
+    TextEditingController _controladorTopicos) async {
+  String _nomeDataEntregaUserId;
+
+  _nomeDataEntregaUserId = _controladorData.text + '_' + userId;
+
   //Atualizando um documento na nossa coleção -> Atividades
   activityRef
       .doc(documentID)
@@ -42,6 +50,7 @@ Future<void> editarAtividade(
         'titulo': _controladorTitulo.text,
         'data_entrega': _controladorData.text,
         'disciplina': _disciplinaSelecionada,
+        'filtroDataEntrega': _nomeDataEntregaUserId,
         'topicos': _controladorTopicos.text,
       })
       .then((value) => debugPrint("Atividade atualizada"))

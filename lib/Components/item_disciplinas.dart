@@ -2,18 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_notes/Widgets/widgets.dart';
 
-class ItemHomepage extends StatefulWidget {
+class ItemDisciplina extends StatefulWidget {
   final String userId;
   final bool isGridMode;
 
-  const ItemHomepage({Key? key, required this.userId, required this.isGridMode})
+  const ItemDisciplina(
+      {Key? key, required this.userId, required this.isGridMode})
       : super(key: key);
 
   @override
-  State<ItemHomepage> createState() => _ItemHomepageState();
+  State<ItemDisciplina> createState() => _ItemDisciplinaState();
 }
 
-class _ItemHomepageState extends State<ItemHomepage> {
+class _ItemDisciplinaState extends State<ItemDisciplina> {
   @override
   Widget build(BuildContext context) {
     final _disciplinaStream = FirebaseFirestore.instance
@@ -23,13 +24,10 @@ class _ItemHomepageState extends State<ItemHomepage> {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         const Text('Minhas matérias'),
         const SizedBox(height: 10),
         Expanded(
-
           child: ItemDisciplinas(
               disciplinaStream: _disciplinaStream,
               userId: widget.userId,
