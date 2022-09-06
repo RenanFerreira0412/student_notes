@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                 }),
             ListTileOptions(
                 icone: Icons.list_alt_rounded,
-                title: 'Minhas Atividades',
+                title: 'Disciplinas',
                 onTap: () {
                   Navigator.pushNamed(context, '/listDisciplinas',
                       arguments: auth.userId());

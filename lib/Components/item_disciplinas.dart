@@ -4,10 +4,10 @@ import 'package:student_notes/Widgets/widgets.dart';
 
 class ItemDisciplina extends StatefulWidget {
   final String userId;
-  final bool isGridMode;
+  final bool isMyDisciplina;
 
   const ItemDisciplina(
-      {Key? key, required this.userId, required this.isGridMode})
+      {Key? key, required this.userId, required this.isMyDisciplina})
       : super(key: key);
 
   @override
@@ -15,23 +15,46 @@ class ItemDisciplina extends StatefulWidget {
 }
 
 class _ItemDisciplinaState extends State<ItemDisciplina> {
+  late String title;
+
+  @override
+  void initState() {
+    super.initState();
+    streamData();
+  }
+
+  streamData() {
+    if (!widget.isMyDisciplina) {
+      final disciplinasGerais = FirebaseFirestore.instance
+          .collection('DISCIPLINAS_GERAIS')
+          .snapshots();
+      return ItemDisciplinas(
+          disciplinaStream: disciplinasGerais,
+          isMyDisciplina: widget.isMyDisciplina,
+          userId: widget.userId);
+    } else {
+      final minhasDisciplina = FirebaseFirestore.instance
+          .collection('DISCIPLINAS')
+          .where('userId', isEqualTo: widget.userId)
+          .snapshots();
+      return ItemDisciplinas(
+          disciplinaStream: minhasDisciplina,
+          isMyDisciplina: widget.isMyDisciplina,
+          userId: widget.userId);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _disciplinaStream = FirebaseFirestore.instance
-        .collection('DISCIPLINAS')
-        .where('userId', isEqualTo: widget.userId)
-        .snapshots();
+    title = widget.isMyDisciplina ? 'Minhas matérias' : 'Matérias gerais';
 
     return Container(
       padding: const EdgeInsets.all(16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        const Text('Minhas matérias'),
+        Text(title),
         const SizedBox(height: 10),
         Expanded(
-          child: ItemDisciplinas(
-              disciplinaStream: _disciplinaStream,
-              userId: widget.userId,
-              isGridMode: widget.isGridMode),
+          child: streamData(),
         )
       ]),
     );
@@ -40,14 +63,15 @@ class _ItemDisciplinaState extends State<ItemDisciplina> {
 
 class ItemDisciplinas extends StatelessWidget {
   final Stream<QuerySnapshot> disciplinaStream;
+
+  final bool isMyDisciplina;
   final String userId;
-  final bool isGridMode;
 
   const ItemDisciplinas(
       {Key? key,
       required this.disciplinaStream,
-      required this.userId,
-      required this.isGridMode})
+      required this.isMyDisciplina,
+      required this.userId})
       : super(key: key);
 
   @override
@@ -64,11 +88,12 @@ class ItemDisciplinas extends StatelessWidget {
           }
 
           final data = snapshot.requireData;
-          if (isGridMode) {
-            return GridBuilder(data: data, userId: userId);
+          if (!isMyDisciplina) {
+            return ListaDisciplinasGerais(data: data, userId: userId);
           } else {
-            return ListBuilder(userId: userId, data: data);
+            return ListaMinhasDisciplinas(data: data);
           }
         });
   }
 }
+

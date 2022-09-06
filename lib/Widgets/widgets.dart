@@ -71,24 +71,63 @@ class GridBuilderState extends State<GridBuilder> {
   }
 }
 
-class ListBuilder extends StatefulWidget {
-  const ListBuilder({Key? key, required this.data, required this.userId})
+class ListaMinhasDisciplinas extends StatefulWidget {
+  const ListaMinhasDisciplinas({Key? key, required this.data})
       : super(key: key);
 
   final QuerySnapshot data;
-  final String userId;
 
   @override
-  State<ListBuilder> createState() => _ListBuilderState();
+  State<ListaMinhasDisciplinas> createState() => _ListaMinhasDisciplinasState();
 }
 
-class _ListBuilderState extends State<ListBuilder> {
+class _ListaMinhasDisciplinasState extends State<ListaMinhasDisciplinas> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: widget.data.size,
         itemBuilder: (BuildContext context, int index) {
           final nomeDisciplina = widget.data.docs[index]['nome'];
+          final userId = widget.data.docs[index]['userId'];
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Card(
+              elevation: 3,
+              child: ListTile(
+                onTap: () {
+                  Navigator.pushNamed(context, '/listActivity',
+                      arguments: DisciplinaArguments(nomeDisciplina, userId));
+                },
+                leading: const Icon(Icons.school_rounded),
+                title: Text(nomeDisciplina),
+              ),
+            ),
+          );
+        });
+  }
+}
+
+class ListaDisciplinasGerais extends StatefulWidget {
+  const ListaDisciplinasGerais(
+      {Key? key, required this.data, required this.userId})
+      : super(key: key);
+
+  final QuerySnapshot data;
+  final String userId;
+
+  @override
+  State<ListaDisciplinasGerais> createState() => _ListaDisciplinasGeraisState();
+}
+
+class _ListaDisciplinasGeraisState extends State<ListaDisciplinasGerais> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: widget.data.size,
+        itemBuilder: (BuildContext context, int index) {
+          final nomeDisciplina = widget.data.docs[index]['nome'];
+          final iconeDisciplina = widget.data.docs[index]['caminho_do_icone'];
 
           return Padding(
             padding: const EdgeInsets.only(bottom: 10),
@@ -100,7 +139,7 @@ class _ListBuilderState extends State<ListBuilder> {
                       arguments:
                           DisciplinaArguments(nomeDisciplina, widget.userId));
                 },
-                leading: const Icon(Icons.school_rounded),
+                leading: Image.asset(iconeDisciplina),
                 title: Text(nomeDisciplina),
               ),
             ),
@@ -108,6 +147,7 @@ class _ListBuilderState extends State<ListBuilder> {
         });
   }
 }
+
 
 pw.Column conteudoPDF(String titulo, topicos, disciplina, data) {
   return pw.Column(children: [

@@ -11,35 +11,35 @@ class ListDisciplinas extends StatefulWidget {
 }
 
 class _ListDisciplinasState extends State<ListDisciplinas> {
-  bool _isGridMode = false;
+  bool _isMyDisciplina = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Minhas Atividades'),
+        title: const Text('Matérias escolares'),
         actions: [
-          if (_isGridMode)
+          if (_isMyDisciplina)
             IconButton(
-              icon: const Icon(Icons.grid_on),
+              icon: const Icon(Icons.change_circle_rounded),
               onPressed: () {
                 setState(() {
-                  _isGridMode = false;
+                  _isMyDisciplina = false;
                 });
               },
             )
           else
             IconButton(
-              icon: const Icon(Icons.list),
+              icon: const Icon(Icons.change_circle_rounded),
               onPressed: () {
                 setState(() {
-                  _isGridMode = true;
+                  _isMyDisciplina = true;
                 });
               },
             ),
         ],
       ),
-      body: ItemDisciplina(userId: widget.userId, isGridMode: _isGridMode),
+      body: ItemDisciplina(userId: widget.userId, isMyDisciplina: _isMyDisciplina),
     );
   }
 }
