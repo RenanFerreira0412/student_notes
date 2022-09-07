@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:student_notes/Services/auth_service.dart';
 
@@ -18,15 +19,7 @@ class UserProfile extends StatelessWidget {
           children: [
             const Text('Minhas Informações'),
             const SizedBox(height: 10),
-
-            SizedBox(
-              width: 300,
-              height: 300,
-              child: Image.network(
-                auth.photoURL(),
-                fit: BoxFit.fill,
-              ),
-            )
+            SvgPicture.asset(auth.photoURL(), semanticsLabel: 'ícone do usuário'),
           ],
         ),
       ),

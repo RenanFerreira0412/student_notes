@@ -33,7 +33,7 @@ class AuthService extends ChangeNotifier {
   }
 
   String photoURL() {
-    return _auth.currentUser!.photoURL ?? 'lib/Assets/Image/user.png';
+    return _auth.currentUser!.photoURL ?? 'lib/Assets/Image/user.svg';
   }
 
   _getUser() {

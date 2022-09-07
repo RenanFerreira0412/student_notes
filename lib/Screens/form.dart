@@ -74,6 +74,9 @@ class _FormularioState extends State<Formulario> {
         .where('userId', isEqualTo: auth.userId())
         .snapshots();
 
+    final _disciplinasGeraisStream =
+        FirebaseFirestore.instance.collection('DISCIPLINAS_GERAIS').snapshots();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastro de Atividades'),
@@ -88,7 +91,7 @@ class _FormularioState extends State<Formulario> {
               buildPanel(),
               const SizedBox(height: 13),
               StreamBuilder<QuerySnapshot>(
-                stream: _disciplinaStream,
+                stream: _disciplinasGeraisStream,
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -103,7 +106,33 @@ class _FormularioState extends State<Formulario> {
 
                   vetDisciplinas = data.docs;
 
-                  //checkDisciplina(data.docs, _controladorNome.text);
+                  return Wrap(
+                    spacing: 8.0,
+                    runSpacing: 5.0,
+                    children: List.generate(
+                      data.size,
+                      (int index) {
+                        return buildChip(index, data);
+                      },
+                    ).toList(),
+                  );
+                },
+              ),
+              StreamBuilder<QuerySnapshot>(
+                stream: _disciplinaStream,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Center(child: Text('Algo deu errado!'));
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final data = snapshot.requireData;
+
+                  //vetDisciplinas = data.docs;
 
                   return Wrap(
                     spacing: 8.0,
@@ -270,7 +299,10 @@ class _FormularioState extends State<Formulario> {
                   ElevatedButton(
                       onPressed: () async {
                         if (_formKeyDisciplina.currentState!.validate()) {
-                          //debugPrint(_controladorNome.text);
+                          for (var element in vetDisciplinas) {
+                            debugPrint('$element');
+                          }
+                          debugPrint(_controladorNome.text);
 
                           if (checkDisciplina(_controladorNome.text)) {
                             //SnackBar

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_notes/Models/activity.dart';
 import 'package:student_notes/Theme/colors.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -133,14 +134,17 @@ class _ListaDisciplinasGeraisState extends State<ListaDisciplinasGerais> {
             padding: const EdgeInsets.only(bottom: 10),
             child: Card(
               elevation: 3,
-              child: ListTile(
-                onTap: () {
-                  Navigator.pushNamed(context, '/listActivity',
-                      arguments:
-                          DisciplinaArguments(nomeDisciplina, widget.userId));
-                },
-                leading: Image.asset(iconeDisciplina),
-                title: Text(nomeDisciplina),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/listActivity',
+                        arguments:
+                            DisciplinaArguments(nomeDisciplina, widget.userId));
+                  },
+                  leading: SvgPicture.asset(iconeDisciplina, semanticsLabel: 'ícone de $nomeDisciplina', width: 100),
+                  title: Text(nomeDisciplina),
+                ),
               ),
             ),
           );
