@@ -27,8 +27,10 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isLogin = true;
   late String titulo;
+  late bool esqueceuSenha;
   late String actionButton;
   late String toggleButton;
+  late double alturaDoCard;
   late Widget formulario;
 
   @override
@@ -44,12 +46,16 @@ class _LoginPageState extends State<LoginPage> {
         titulo = 'Entre na sua conta';
         actionButton = 'Login';
         toggleButton = 'Ainda não tem conta? Cadastre-se agora.';
+        esqueceuSenha = true;
         formulario = formLogin();
+        alturaDoCard = 450;
       } else {
         titulo = 'Crie uma conta';
         actionButton = 'Cadastrar';
         toggleButton = 'Voltar ao Login.';
+        esqueceuSenha = false;
         formulario = formCadastro();
+        alturaDoCard = 600;
       }
     });
   }
@@ -76,47 +82,68 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: SvgPicture.asset(
-          'lib/Assets/Svg/logo-light.svg',
-          width: 400,
-        ),
-        toolbarHeight: 130,
-      ),
-      body: SingleChildScrollView(
+      body: Container(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              titulo,
-              style: const TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -1.5,
+        child: Center(
+          child: Card(
+            child: SizedBox(
+              width: 600,
+              height: alturaDoCard,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  //mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'lib/Assets/Svg/logo-light.svg',
+                          width: 400,
+                        ),
+                        const SizedBox(height: 15),
+                        Text(
+                          titulo,
+                          style: const TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: -1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                    TextButton(
+                      onPressed: () => setFormAction(!isLogin),
+                      child: Text(toggleButton),
+                    ),
+                    formulario,
+                    ElevatedButton(
+                        onPressed: () {
+                          if (isLogin) {
+                            if (_formLoginKey.currentState!.validate()) {
+                              debugPrint('login');
+                              login(); // Chama o método de login
+                            }
+                          } else {
+                            if (_formCadastroKey.currentState!.validate()) {
+                              debugPrint('cadastro');
+                              registrar(); // Chama o método de cadastro
+                            }
+                          }
+                        },
+                        child: Text(actionButton)),
+                    if (esqueceuSenha)
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                            'Esqueceu sua senha? Recuperar minha senha.'),
+                      ),
+                  ],
+                ),
               ),
             ),
-            TextButton(
-              onPressed: () => setFormAction(!isLogin),
-              child: Text(toggleButton),
-            ),
-            formulario,
-            ElevatedButton(
-                onPressed: () {
-                  if (isLogin) {
-                    if (_formLoginKey.currentState!.validate()) {
-                      debugPrint('login');
-                      login(); // Chama o método de login
-                    }
-                  } else {
-                    if (_formCadastroKey.currentState!.validate()) {
-                      debugPrint('cadastro');
-                      registrar(); // Chama o método de cadastro
-                    }
-                  }
-                },
-                child: Text(actionButton))
-          ],
+          ),
         ),
       ),
     );
