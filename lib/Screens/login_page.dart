@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:student_notes/Components/editor.dart';
 import 'package:student_notes/Services/auth_service.dart';
@@ -40,12 +41,12 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isLogin = acao;
       if (isLogin) {
-        titulo = 'Student Notes';
+        titulo = 'Entre na sua conta';
         actionButton = 'Login';
         toggleButton = 'Ainda não tem conta? Cadastre-se agora.';
         formulario = formLogin();
       } else {
-        titulo = 'Crie sua conta';
+        titulo = 'Crie uma conta';
         actionButton = 'Cadastrar';
         toggleButton = 'Voltar ao Login.';
         formulario = formCadastro();
@@ -75,6 +76,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: SvgPicture.asset(
+          'lib/Assets/Svg/logo-light.svg',
+          width: 400,
+        ),
+        toolbarHeight: 130,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
