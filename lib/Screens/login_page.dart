@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:student_notes/Components/editor.dart';
 import 'package:student_notes/Services/auth_service.dart';
+import 'package:flutter/foundation.dart';
+import 'package:student_notes/Theme/colors.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -30,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   late bool esqueceuSenha;
   late String actionButton;
   late String toggleButton;
+  late String tituloLogin;
   late double alturaDoCard;
   late Widget formulario;
 
@@ -46,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
         titulo = 'Entre na sua conta';
         actionButton = 'Login';
         toggleButton = 'Ainda não tem conta? Cadastre-se agora.';
+        tituloLogin = 'Bem vindo de volta! Acesse sua conta para acompanhar suas atividades.';
         esqueceuSenha = true;
         formulario = formLogin();
         alturaDoCard = 450;
@@ -53,6 +57,8 @@ class _LoginPageState extends State<LoginPage> {
         titulo = 'Crie uma conta';
         actionButton = 'Cadastrar';
         toggleButton = 'Voltar ao Login.';
+        tituloLogin =
+            'Você está quase lá! Cadastre-se para ter registrado suas atividades escolares.';
         esqueceuSenha = false;
         formulario = formCadastro();
         alturaDoCard = 600;
@@ -82,69 +88,103 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Center(
-          child: Card(
-            child: SizedBox(
-              width: 600,
-              height: alturaDoCard,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'lib/Assets/Svg/logo-light.svg',
-                          width: 400,
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          titulo,
-                          style: const TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: -1.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () => setFormAction(!isLogin),
-                      child: Text(toggleButton),
-                    ),
-                    formulario,
-                    ElevatedButton(
-                        onPressed: () {
-                          if (isLogin) {
-                            if (_formLoginKey.currentState!.validate()) {
-                              debugPrint('login');
-                              login(); // Chama o método de login
-                            }
-                          } else {
-                            if (_formCadastroKey.currentState!.validate()) {
-                              debugPrint('cadastro');
-                              registrar(); // Chama o método de cadastro
-                            }
-                          }
-                        },
-                        child: Text(actionButton)),
-                    if (esqueceuSenha)
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                            'Esqueceu sua senha? Recuperar minha senha.'),
-                      ),
-                  ],
-                ),
-              ),
+      body: SingleChildScrollView(child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          var size = MediaQuery.of(context).size;
+          return buildLayout(constraints, size);
+        },
+      )),
+    );
+  }
+
+  Widget buildLayout(BoxConstraints constraints, Size size) {
+    if (constraints.maxWidth > 991) {
+      return Row(
+        children: <Widget>[
+          appLogo(size.height, constraints.maxWidth / 2),
+          forms(size.height, constraints.maxWidth / 2)
+        ],
+      );
+    } else {
+      return Column(
+        children: <Widget>[
+          appLogo(size.height / 3, constraints.maxWidth),
+          forms(size.height, constraints.maxWidth)
+        ],
+      );
+    }
+  }
+
+  Widget appLogo(double size, double constraints) {
+    return Container(
+      height: size,
+      width: constraints,
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            'lib/Assets/Svg/logo-light.svg',
+            width: 400,
+          ),
+          const SizedBox(height: 15),
+          Text(
+            tituloLogin,
+            style: const TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -1.5,
             ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+
+  Widget forms(double size, double constraints) {
+    return Container(
+      height: size,
+      width: constraints,
+      decoration: BoxDecoration(color: AppColors.flexSchemeDark.surface),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            titulo,
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -1.5,
+            ),
+          ),
+          TextButton(
+            onPressed: () => setFormAction(!isLogin),
+            child: Text(toggleButton),
+          ),
+          formulario,
+          ElevatedButton(
+              onPressed: () {
+                if (isLogin) {
+                  if (_formLoginKey.currentState!.validate()) {
+                    debugPrint('login');
+                    login(); // Chama o método de login
+                  }
+                } else {
+                  if (_formCadastroKey.currentState!.validate()) {
+                    debugPrint('cadastro');
+                    registrar(); // Chama o método de cadastro
+                  }
+                }
+              },
+              child: Text(actionButton)),
+          if (esqueceuSenha)
+            TextButton(
+              onPressed: () {},
+              child: const Text('Esqueceu sua senha? Recuperar minha senha.'),
+            ),
+        ],
       ),
     );
   }
