@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:student_notes/Components/item_disciplinas.dart';
 
 class ListDisciplinas extends StatefulWidget {
-  const ListDisciplinas({Key? key, required this.userId}) : super(key: key);
+  const ListDisciplinas({Key? key, this.userId}) : super(key: key);
 
-  final String userId;
+  final String? userId;
 
   @override
   State<ListDisciplinas> createState() => _ListDisciplinasState();
@@ -39,7 +39,8 @@ class _ListDisciplinasState extends State<ListDisciplinas> {
             ),
         ],
       ),
-      body: ItemDisciplina(userId: widget.userId, isMyDisciplina: _isMyDisciplina),
+      body: ItemDisciplina(
+          userId: widget.userId!, isMyDisciplina: _isMyDisciplina),
     );
   }
 }

@@ -212,6 +212,10 @@ class _FormularioState extends State<Formulario> {
               const SnackBar snackBar = SnackBar(
                   content: Text("Sua atividade foi criada com sucesso! "));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+              //Navega para a tela de disciplinas
+              Navigator.pushReplacementNamed(context, '/listDisciplinas',
+                  arguments: '');
             } else {
               editarAtividade(
                   activityRef,
@@ -225,6 +229,9 @@ class _FormularioState extends State<Formulario> {
               const SnackBar snackBar = SnackBar(
                   content: Text("Sua atividade foi alterada com sucesso! "));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+              //Navega para a tela de disciplinas
+              Navigator.pop(context);
             }
 
             //Limpa o formulário após a edição ou adição da atividade

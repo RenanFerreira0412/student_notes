@@ -49,7 +49,8 @@ class _LoginPageState extends State<LoginPage> {
         titulo = 'Entre na sua conta';
         actionButton = 'Login';
         toggleButton = 'Ainda não tem conta? Cadastre-se agora.';
-        tituloLogin = 'Bem vindo de volta! Acesse sua conta para acompanhar suas atividades.';
+        tituloLogin =
+            'Bem vindo de volta! Acesse sua conta para acompanhar suas atividades.';
         esqueceuSenha = true;
         formulario = formLogin();
         alturaDoCard = 450;
@@ -119,6 +120,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       height: size,
       width: constraints,
+      decoration: BoxDecoration(color: AppColors.flexSchemeDark.surface),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -131,9 +133,10 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 15),
           Text(
             tituloLogin,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
+              color: AppColors.flexSchemeDark.onPrimaryContainer,
               letterSpacing: -1.5,
             ),
           ),
@@ -146,22 +149,26 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       height: size,
       width: constraints,
-      decoration: BoxDecoration(color: AppColors.flexSchemeDark.surface),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            titulo,
-            style: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -1.5,
-            ),
-          ),
-          TextButton(
-            onPressed: () => setFormAction(!isLogin),
-            child: Text(toggleButton),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                titulo,
+                style: const TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -1.5,
+                ),
+              ),
+              TextButton(
+                onPressed: () => setFormAction(!isLogin),
+                child: Text(toggleButton),
+              )
+            ],
           ),
           formulario,
           ElevatedButton(
@@ -207,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
                 rotulo: 'Senha',
                 dica: 'Sua senha',
                 errorText: 'Campo Obrigatório!',
-                icon: const Icon(Icons.lock_rounded),
+                icon: const Icon(Icons.key_rounded),
                 verSenha: true,
                 confirmPasswordField: false),
           ],
@@ -240,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                 rotulo: 'Senha',
                 dica: 'Sua senha',
                 errorText: 'Campo Obrigatório!',
-                icon: const Icon(Icons.lock_rounded),
+                icon: const Icon(Icons.key_rounded),
                 verSenha: true,
                 confirmPasswordField: false),
             EditorAuthField(
@@ -249,7 +256,7 @@ class _LoginPageState extends State<LoginPage> {
                 dica: 'Repita sua senha',
                 errorText:
                     'Por favor, verifique se este campo possui a mesma senha digitada!',
-                icon: const Icon(Icons.lock_rounded),
+                icon: const Icon(Icons.key_rounded),
                 verSenha: true,
                 controllerSenha: registrarSenha,
                 confirmPasswordField: true),

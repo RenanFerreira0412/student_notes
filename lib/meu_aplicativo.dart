@@ -6,6 +6,7 @@ class StudentNoteApp extends StatelessWidget {
   const StudentNoteApp({Key? key}) : super(key: key);
 
   static const String _title = 'Student Notes';
+  final ThemeMode themeMode = ThemeMode.light;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +46,7 @@ class StudentNoteApp extends StatelessWidget {
         // To use the playground font, add GoogleFonts package and uncomment
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
+      themeMode: themeMode,
       initialRoute: '/authCheck',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
